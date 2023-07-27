@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import React from "react";
 import ContactRow from './ContactRow';
+import { useEffect } from 'react';
 
 const dummyContacts = [
     { id: 1, name: "R2-D2", phone: "222-222-2222", email: "r2d2@droids.com" },
@@ -9,7 +10,20 @@ const dummyContacts = [
   ];
 
 const ContactList = () => {
-    const [contacts, setContacts] = useState(dummyContacts)
+    const [contacts, setContacts] = useState(dummyContacts);
+    useEffect(() => {
+        const fetchContacts = async () => {
+          try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/todos/');
+            const data = await response.json();
+            setContacts(data);
+            console.log(data)
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        fetchContacts()
+      }, []);
     console.log(contacts)
 
     return ( 
